@@ -1,4 +1,4 @@
-/* package com.example.demo;
+package com.example.demo;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +16,8 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-			.authorizeHttpRequests((requests) -> requests``
-				.antMatchers("/", "/home").permitAll()
+			.authorizeHttpRequests((requests) -> requests
+				.antMatchers("/", "/home", "/bootstrap/css/sb-admin-2.min.css").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
@@ -40,4 +40,4 @@ public class WebSecurityConfig {
 
 		return new InMemoryUserDetailsManager(user);
 	}
-} */
+}
