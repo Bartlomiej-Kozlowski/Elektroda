@@ -1,19 +1,33 @@
-package com.example.demo;
+package com.example.demo.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+//model obiektu użytkownika
 @Entity // This tells Hibernate to make a table out of this class
+@Table  // Mówi bazie danych, żeby utworzyła taką tabelę.
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy=GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
     private Integer id;
 
     private String name;
 
     private String email;
+
+    public User(String name, String email){
+        this.name = name;
+        this.email = email;
+    }
+
+    public User(){}
 
     public Integer getId() {
         return id;
