@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Administrtation panel</title>
+</head>
+<body>
+    <div>
+        <!--/*@thymesVar id="list" type="Iterable"*/-->
+<!--        <p id="listContainer" th:if="${list}" th:each="user : ${list}" th:text="'id: ' + ${user.id} + ', name: ' + ${user.name}"></p>-->
+        <p id="listContainer"></p>
+<!--            <button type="submit">Get users</button>-->
+            <button onclick="showUsers()">Get users</button>
+    </div>
+<script>
+    function showUsers() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function() {
+            document.getElementById("listContainer").innerHTML = xhttp.responseText;
+        }
+        xhttp.open("POST", "/api/user/get");
+        xhttp.send();
+    }
+</script>
+</body>
+</html>
