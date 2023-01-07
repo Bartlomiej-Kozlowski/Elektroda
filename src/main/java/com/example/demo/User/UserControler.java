@@ -1,13 +1,13 @@
 package com.example.demo.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/user")
+@Controller
 public class UserControler {
     private UserService userService;
 
@@ -16,9 +16,16 @@ public class UserControler {
         this.userService = userService;
     }
 
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+
+        return "signup_form";
+    }
     @PostMapping("/register")
-    public void registerNewUser(@RequestBody User user){
+    public String registerNewUser(User user){
         userService.addUser(user);
+        return "register_success";
     }
 //    @GetMapping("/get")
     @PostMapping("/get")
@@ -28,4 +35,5 @@ public class UserControler {
 //        model.addAttribute("list", userList);
 //        return "dashboard";
     }
+
 }

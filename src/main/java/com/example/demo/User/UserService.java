@@ -1,6 +1,7 @@
 package com.example.demo.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +20,13 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public void addUser(User user){
-        System.out.println(user);
+    public User addUser(User user){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        this.userRepository.save(user);
+
+        return user;
     }
 }

@@ -15,7 +15,8 @@ public class UserConfig {
         return args -> {
             User user1 = new User(
                     "testUser",
-                    "user@gmail"
+                    "user@gmail",
+                    "haslo"
             );
             repository.save(user1);
         };
