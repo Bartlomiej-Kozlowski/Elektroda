@@ -27,13 +27,4 @@ public class UserControler {
         userService.addUser(user);
         return "register_success";
     }
-//    @GetMapping("/get")
-    @PostMapping("/get")
-    public List<User> getUser(Model model) {
-        return userService.getUsers();
-//        List<User> userList = userService.getUsers();
-//        model.addAttribute("list", userList);
-//        return "dashboard";
-    }
-
 }

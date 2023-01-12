@@ -19,6 +19,10 @@ public class GreetingController {
 		model.addAttribute("name", name);
 		return "dashboard";
 	}
+	@GetMapping("/forum")
+	public String forum() {
+		return "ForumThreadList";
+	}
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name = "name", required=false, defaultValue="world") String name, Model model) {

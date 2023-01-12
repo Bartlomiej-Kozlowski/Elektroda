@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            padding-left: 20px;
+        }
+        div.threadsContainer{
+            size: 20px;
+        }
+        div.threadsContainer div{
+            size: 15px;
+        }
+        div.threadsContainer div div{
+            size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div0" class="threadsContainer">
+
+    </div>
+<script>
+    window.onload = () => {
+        fetch('/api/forumThreadGroup/get', {
+            method: 'post',
+            body: '',
+            headers: {}
+        }).then((response) => {
+            if (response.ok) {
+            }
+            return response.json();
+        }).then((res) => {
+            console.log(res[0]);
+            res.forEach((element) => {
+                let container = document.getElementById("div" + element.threadGroupId);
+                let div = document.createElement("div");
+                div.id = "div" + element.id;
+                div.innerHTML = "name: " + element.name + ", description: " + element.description;
+                container.append(div);
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+</script>
+</body>
+</html>
