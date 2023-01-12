@@ -5,6 +5,45 @@
     <title>Title</title>
 </head>
 <body>
+    <div id="div0" class="postsContainer">
 
+    </div>
+<script>
+    window.onload = () => {
+        let bodyMessage = JSON.stringify({threadId: sessionStorage.getItem("threadId")})
+        fetch('/api/forumPost/list', {
+            method: 'post',
+            body: bodyMessage,
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then((response) => {
+            if (response.ok) {
+            }
+            return response.json();
+        }).then((res) => {
+            console.log(res[0]);
+            res.forEach((element) => {
+                let container = document.getElementById("div0");
+                let div = document.createElement("div");
+                div.id = "div" + element.id;
+                div.className = "forumPost";  //not category
+                div.onclick = () => {
+                    sessionStorage.setItem("postId", element.threadId);
+                    // fetch("/postContent", {
+                    //     method: 'get',
+                    //     headers: {}
+                    // })
+                    //fetch to forum post list with id of the thread,
+                    //to get list of posts for this thread
+                };
+                div.innerHTML = "topicName: " + element.topicName + ", userId: " + element.userId + ", threadId: " + element.threadId;
+                container.append(div);
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+</script>
 </body>
 </html>

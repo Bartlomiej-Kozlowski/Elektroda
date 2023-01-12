@@ -23,6 +23,15 @@ public class GreetingController {
 	public String forum() {
 		return "ForumThreadList";
 	}
+	@GetMapping("/postList")
+	public String postList() {
+		return "ForumPostList";
+	}
+	@GetMapping("/postContent")
+	public String postContent() {
+		return "ForumPostList";
+//		return "ForumPostContent";
+	}
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name = "name", required=false, defaultValue="world") String name, Model model) {

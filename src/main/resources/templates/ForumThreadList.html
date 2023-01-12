@@ -7,14 +7,21 @@
         div{
             padding-left: 20px;
         }
-        div.threadsContainer{
-            size: 20px;
-        }
         div.threadsContainer div{
-            size: 15px;
+            font-size: 25px;
         }
         div.threadsContainer div div{
-            size: 12px;
+            font-size: 20px;
+        }
+        div.threadsContainer div div div{
+            font-size: 15px;
+        }
+        .forumThread{
+            color: #000;
+
+        }
+        .category{
+            color: #F00;
         }
     </style>
 </head>
@@ -38,8 +45,39 @@
                 let container = document.getElementById("div" + element.threadGroupId);
                 let div = document.createElement("div");
                 div.id = "div" + element.id;
+                div.className = "category";
                 div.innerHTML = "name: " + element.name + ", description: " + element.description;
                 container.append(div);
+            });
+            fetch('/api/forumThread/get', {
+                method: 'post',
+                body: '',
+                headers: {}
+            }).then((response2) => {
+                if (response2.ok) {
+                }
+                return response2.json();
+            }).then((res2) => {
+                console.log(res2[0]);
+                res2.forEach((element) => {
+                    let container = document.getElementById("div" + element.threadGroupId);
+                    let div = document.createElement("div");
+                    div.id = "thread" + element.id;
+                    div.className = "forumThread";  //not category
+                    div.onclick = () => {
+                        sessionStorage.setItem("threadId", element.id);
+                        // fetch("/postList", {
+                        //     method: 'get',
+                        //     headers: {}
+                        // })
+                        //fetch to forum post list with id of the thread,
+                        //to get list of posts for this thread
+                    };
+                    div.innerHTML = "name: " + element.name + ", description: " + element.description + " <a href='/postList'>Przejdź</a>";
+                    container.append(div);
+                });
+            }).catch((error) => {
+                console.log(error)
             });
         }).catch((error) => {
             console.log(error)

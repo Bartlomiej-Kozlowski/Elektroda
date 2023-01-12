@@ -19,9 +19,19 @@ public class ForumPost {
     private String topicName;
     private String content;
     private int userId; //user that made the post;
+    private int threadId; //user that made the post;
 
-    public ForumPost(int userId, String topicName, String content){
+    public ForumPost(int id, int userId, int threadId, String topicName, String content){
+        this.id = id;
         this.userId = userId;
+        this.threadId = threadId;
+        this.topicName = topicName;
+        this.content = content;
+    }
+
+    public ForumPost(int userId, int threadId, String topicName, String content){
+        this.userId = userId;
+        this.threadId = threadId;
         this.topicName = topicName;
         this.content = content;
     }
@@ -32,6 +42,10 @@ public class ForumPost {
 
     public int getId() {
         return id;
+    }
+
+    public int getThreadId() {
+        return threadId;
     }
 
     public String getTopicName() {

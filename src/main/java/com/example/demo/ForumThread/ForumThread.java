@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table
 //same as ForumThreadGroup, but can be a parent for ForumPost
+//will have a link redirecting to forum posts
 public class ForumThread {
     @Id
     @SequenceGenerator(
@@ -21,11 +22,24 @@ public class ForumThread {
     private String description;
     private int threadGroupId;  //parent thread group id
 
-    public ForumThread(int id, int threadGroupId, String name, String description){
+    public ForumThread(int id, String name, String description, int threadGroupId){
         this.id = id;
-        this.threadGroupId = threadGroupId;
         this.name = name;
         this.description = description;
+        this.threadGroupId = threadGroupId;
+    }
+    public ForumThread(String name, String description, int threadGroupId){
+        this.name = name;
+        this.description = description;
+        this.threadGroupId = threadGroupId;
+    }
+
+    public ForumThread() {
+
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
@@ -38,22 +52,5 @@ public class ForumThread {
 
     public int getThreadGroupId() {
         return threadGroupId;
-    }
-
-    public ForumThread(int threadGroupId, String name, String description){
-        this.name = name;
-        this.threadGroupId = threadGroupId;
-        this.description = description;
-    }
-
-    public ForumThread() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
 }
