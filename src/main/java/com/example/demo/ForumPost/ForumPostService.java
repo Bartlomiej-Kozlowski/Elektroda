@@ -17,18 +17,16 @@ public class ForumPostService {
     public ForumPostService(ForumPostRepository forumPostRepository){
         this.forumPostRepository = forumPostRepository;
     }
-//    public ForumPost getForumPost(int id){
+
     public ForumPost getForumPost(ForumPostContentRequestDTO forumPostContentRequestDTO){
         return this.forumPostRepository.findForumPostByIdEquals(forumPostContentRequestDTO.postId());
     }
 
-//    public List<ForumPost> getForumPosts(int threadId){
     public List<ForumPostWithoutContent> getForumPosts(ForumPostListRequestDTO forumPostListRequestDTO){
         return this.forumPostRepository.findForumPostsByThreadId(forumPostListRequestDTO.threadId());
     }
 
-
-    public ForumPost addForumPostGroup(ForumPost forumPost){
+    public ForumPost addForumPost(ForumPost forumPost){
         this.forumPostRepository.save(forumPost);
         return forumPost;
     }

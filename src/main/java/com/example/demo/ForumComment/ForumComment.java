@@ -1,6 +1,7 @@
 package com.example.demo.ForumComment;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -19,6 +20,16 @@ public class ForumComment {
     private String content;
     private int userId; //user that made the comment;
     private int postId; //replying to this post that made the comment;
+    private LocalDateTime dateOfCreation;
+    private LocalDateTime dateOfLastEdit;
+
+    public ForumComment(int id, int userId, int postId, String content){
+        this.id = id;
+        this.userId = userId;
+        this.postId = postId;
+        this.content = content;
+        this.dateOfCreation = LocalDateTime.now();
+    }
 
     public ForumComment(int userId, int postId, String content){
         this.userId = userId;
@@ -40,6 +51,7 @@ public class ForumComment {
 
     public void setContent(String content) {
         this.content = content;
+        this.dateOfLastEdit = LocalDateTime.now();
     }
 
     public int getUserId() {

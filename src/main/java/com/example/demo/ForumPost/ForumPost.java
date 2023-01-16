@@ -20,6 +20,8 @@ public class ForumPost {
     private String content;
     private int userId; //user that made the post;
     private int threadId; //user that made the post;
+    private String dateOfCreation;
+    private String dateOfLastEdit;
 
     public ForumPost(int id, int userId, int threadId, String topicName, String content){
         this.id = id;

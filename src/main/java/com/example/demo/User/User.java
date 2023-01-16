@@ -17,19 +17,30 @@ public class User {
             generator = "user_sequence"
     )
     private Integer id;
-
     private String name;
-
     private String email;
-
-
-
     private String password;
+    private UserRole role;
 
+    public User(int id, String name, String email, String password, UserRole role){
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+    public User(String name, String email, String password, UserRole role){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
     public User(String name, String email, String password){
         this.name = name;
         this.email = email;
         this.password = password;
+//        this.role = List.of(UserRole.ROLE_USER);
+        this.role = UserRole.ROLE_USER;
     }
 
     public User(){}
@@ -63,5 +74,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 }

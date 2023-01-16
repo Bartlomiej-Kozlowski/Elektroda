@@ -18,7 +18,7 @@ public class ForumThreadService {
         return this.forumThreadRepository.findAll();
     }
 
-    public ForumThread addForumThreadGroup(ForumThread forumThread){
+    public ForumThread addForumThread(ForumThread forumThread){
         this.forumThreadRepository.save(forumThread);
         return forumThread;
     }

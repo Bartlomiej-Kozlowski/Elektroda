@@ -39,9 +39,8 @@
             if (response.ok) {
             }
             return response.json();
-        }).then((res) => {
-            console.log(res[0]);
-            res.forEach((element) => {
+        }).then((response) => {
+            response.forEach((element) => {
                 let container = document.getElementById("div" + element.threadGroupId);
                 let div = document.createElement("div");
                 div.id = "div" + element.id;
@@ -49,17 +48,17 @@
                 div.innerHTML = "name: " + element.name + ", description: " + element.description;
                 container.append(div);
             });
+        }).then(() => {
             fetch('/api/forumThread/get', {
                 method: 'post',
                 body: '',
                 headers: {}
-            }).then((response2) => {
-                if (response2.ok) {
+            }).then((res) => {
+                if (res.ok) {
                 }
-                return response2.json();
-            }).then((res2) => {
-                console.log(res2[0]);
-                res2.forEach((element) => {
+                return res.json();
+            }).then((res) => {
+                res.forEach((element) => {
                     let container = document.getElementById("div" + element.threadGroupId);
                     let div = document.createElement("div");
                     div.id = "thread" + element.id;
@@ -69,11 +68,21 @@
                         // fetch("/postList", {
                         //     method: 'get',
                         //     headers: {}
-                        // })
-                        //fetch to forum post list with id of the thread,
-                        //to get list of posts for this thread
+                        // }).then((response) => {
+                        //     if (response.ok) {
+                        //     }
+                        //     return response.text();
+                        // }).then((response) => {
+                        //     document.getElementsByTagName("html")[0].setHTML(response);
+                        // }).catch((error) => {
+                        //     console.log(error);
+                        // });
+                        ////fetch to forum post list with id of the thread,
+                        ////to get list of posts for this thread
                     };
-                    div.innerHTML = "name: " + element.name + ", description: " + element.description + " <a href='/postList'>Przejdź</a>";
+                    div.setHTML(
+                        "name: " + element.name + ", description: " + element.description + " <a href='/postList'>Przejdź</a>"
+                    );
                     container.append(div);
                 });
             }).catch((error) => {

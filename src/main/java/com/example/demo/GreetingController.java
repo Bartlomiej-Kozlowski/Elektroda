@@ -29,8 +29,7 @@ public class GreetingController {
 	}
 	@GetMapping("/postContent")
 	public String postContent() {
-		return "ForumPostList";
-//		return "ForumPostContent";
+		return "ForumPostContent";
 	}
 
 	@GetMapping("/greeting")

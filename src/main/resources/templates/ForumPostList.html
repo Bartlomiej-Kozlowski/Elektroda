@@ -22,22 +22,20 @@
             }
             return response.json();
         }).then((res) => {
-            console.log(res[0]);
             res.forEach((element) => {
                 let container = document.getElementById("div0");
                 let div = document.createElement("div");
                 div.id = "div" + element.id;
-                div.className = "forumPost";  //not category
+                div.className = "forumPost";
                 div.onclick = () => {
-                    sessionStorage.setItem("postId", element.threadId);
-                    // fetch("/postContent", {
-                    //     method: 'get',
-                    //     headers: {}
-                    // })
-                    //fetch to forum post list with id of the thread,
-                    //to get list of posts for this thread
+                    sessionStorage.setItem("postId", element.id);
                 };
-                div.innerHTML = "topicName: " + element.topicName + ", userId: " + element.userId + ", threadId: " + element.threadId;
+                div.setHTML(
+                    "topicName: " + element.topicName +
+                    ", userId: " + element.userId +
+                    ", threadId: " + element.threadId +
+                    "<a href='/postContent'>Przejdź</a>"
+                );
                 container.append(div);
             });
         }).catch((error) => {
