@@ -5,6 +5,7 @@
     <title>Dashboard - Administrtation panel</title>
 </head>
 <body>
+<script src="js/cookieHadler.js"></script>
     <div>
         <!--/*@thymesVar id="list" type="Iterable"*/-->
 <!--        <p id="listContainer" th:if="${list}" th:each="user : ${list}" th:text="'id: ' + ${user.id} + ', name: ' + ${user.name}"></p>-->
@@ -14,12 +15,25 @@
     </div>
 <script>
     function showUsers() {
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            document.getElementById("listContainer").innerHTML = xhttp.responseText;
-        }
-        xhttp.open("POST", "/api/user/get");
-        xhttp.send();
+        fetch('/api/user/get', {
+            method: 'post',
+            body: '',
+            headers: {}
+        }).then((response) => {
+            if (response.ok) {
+            }
+            return response.json();
+        }).then((res) => {
+            console.log(res[0]);
+            let container = document.getElementById("listContainer");
+            res.forEach((element) => {
+                let p = document.createElement("p");
+                p.innerHTML = "name: " + element.name + ", email: " + element.email;
+                container.append(p);
+            });
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 </script>
 </body>

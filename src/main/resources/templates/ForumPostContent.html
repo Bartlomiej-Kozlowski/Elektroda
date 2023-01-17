@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div0" class="Content">
+
+    </div>
+    <div id="addComment">
+    </div>
+<script>
+window.onload = () => {
+    let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
+    fetch('/api/forumPost/get', { //Orginal Post
+        method: 'post',
+        body: bodyMessage,
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }).then((response) => {
+        if (response.ok) {
+        }
+        return response.json();
+    }).then((response) => {
+        let container = document.getElementById("div0");
+        let div = document.createElement("div");
+        div.id = "div" + response.id;
+        div.className = "forumPost";
+        div.setHTML(
+            "topicName: " + response.topicName +
+            ", userId: " + response.userId +
+            ", threadId: " + response.threadId +
+            ", content: " + response.content
+        );
+        container.append(div);
+    }).then(() => { //komentarze
+        let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
+        fetch('/api/forumComment/list', {
+            method: 'post',
+            body: bodyMessage,
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }).then((response) => {
+            return response.json();
+        }).then((response) => {
+            let container = document.getElementById("div0");
+            response.forEach((element) => {
+                let div = document.createElement("div");
+                div.id = "div" + element.id;
+                div.className = "forumPost";
+                div.setHTML(
+                    "content: " + element.content +
+                    ", postId: " + element.postId +
+                    ", dateOfCreation: " + element.dateOfCreation +
+                    ", dateOfLastEdit: " + element.dateOfLastEdit
+                );
+                container.append(div);
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+    }).catch((error) => {
+        console.log(error)
+    });
+    let addCommentDiv = document.getElementById("addComment");
+    if (true){  //jeżeli użytkownik zalogowany
+        addCommentDiv.setHTML(
+            `<textarea id="commentContent" placeholder="Wprowadź treść komentarza ..."></textarea>
+    <button onclick="addComment()">Add comment</button>`
+        )
+    }else{
+        addCommentDiv.setHTML(
+            `<p>Komentowanie możliwe tylko dla zalogowanych użytkowników</p>`
+        )
+    }
+    function addComment(){
+        let commentContent = document.getElementById("commentContent");
+        let bodyMessage = JSON.stringify({content: commentContent.value, token: "sss"})
+        if (commentContent){
+            // fetch("/api/forumComment/create", {
+            //     method: "post";
+            //     body: ;
+            // })
+        }
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            padding-left: 20px;
+        }
+        div.threadsContainer div{
+            font-size: 25px;
+        }
+        div.threadsContainer div div{
+            font-size: 20px;
+        }
+        div.threadsContainer div div div{
+            font-size: 15px;
+        }
+        .forumThread{
+            color: #000;
+
+        }
+        .category{
+            color: #F00;
+        }
+    </style>
+</head>
+<body>
+    <div id="div0" class="threadsContainer">
+
+    </div>
+<script>
+    window.onload = () => {
+        fetch('/api/forumThreadGroup/get', {
+            method: 'post',
+            body: '',
+            headers: {}
+        }).then((response) => {
+            if (response.ok) {
+            }
+            return response.json();
+        }).then((response) => {
+            response.forEach((element) => {
+                let container = document.getElementById("div" + element.threadGroupId);
+                let div = document.createElement("div");
+                div.id = "div" + element.id;
+                div.className = "category";
+                div.innerHTML = "name: " + element.name + ", description: " + element.description;
+                container.append(div);
+            });
+        }).then(() => {
+            fetch('/api/forumThread/get', {
+                method: 'post',
+                body: '',
+                headers: {}
+            }).then((res) => {
+                if (res.ok) {
+                }
+                return res.json();
+            }).then((res) => {
+                res.forEach((element) => {
+                    let container = document.getElementById("div" + element.threadGroupId);
+                    let div = document.createElement("div");
+                    div.id = "thread" + element.id;
+                    div.className = "forumThread";  //not category
+                    div.onclick = () => {
+                        sessionStorage.setItem("threadId", element.id);
+                        // fetch("/postList", {
+                        //     method: 'get',
+                        //     headers: {}
+                        // }).then((response) => {
+                        //     if (response.ok) {
+                        //     }
+                        //     return response.text();
+                        // }).then((response) => {
+                        //     document.getElementsByTagName("html")[0].setHTML(response);
+                        // }).catch((error) => {
+                        //     console.log(error);
+                        // });
+                        ////fetch to forum post list with id of the thread,
+                        ////to get list of posts for this thread
+                    };
+                    div.setHTML(
+                        "name: " + element.name + ", description: " + element.description + " <a href='/postList'>Przejdź</a>"
+                    );
+                    container.append(div);
+                });
+            }).catch((error) => {
+                console.log(error)
+            });
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+</script>
+</body>
+</html>

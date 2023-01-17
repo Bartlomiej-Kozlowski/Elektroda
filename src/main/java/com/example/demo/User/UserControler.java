@@ -3,9 +3,8 @@ package com.example.demo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserControler {
@@ -27,13 +26,4 @@ public class UserControler {
         userService.addUser(user);
         return "register_success";
     }
-//    @GetMapping("/get")
-    @PostMapping("/get")
-    public List<User> getUser(Model model) {
-        return userService.getUsers();
-//        List<User> userList = userService.getUsers();
-//        model.addAttribute("list", userList);
-//        return "dashboard";
-    }
-
 }
