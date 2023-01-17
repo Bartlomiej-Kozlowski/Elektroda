@@ -16,4 +16,5 @@ public interface ForumPostRepository extends JpaRepository <ForumPost, Integer> 
     //get content of a single post to show the actual post content
     @Query("select f from ForumPost f where f.id = ?1")
     ForumPost findForumPostByIdEquals(int id);
+    List<ForumPost> findByThreadId(int threadId);
 }

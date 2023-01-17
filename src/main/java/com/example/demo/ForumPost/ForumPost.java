@@ -18,7 +18,7 @@ public class ForumPost {
     private int id;
     private String topicName;
     private String content;
-    private int userId; //user that made the post;
+    private int userId; //user that made the post;`
     private int threadId; //user that made the post;
     private String dateOfCreation;
     private String dateOfLastEdit;

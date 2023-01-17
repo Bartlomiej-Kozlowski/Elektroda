@@ -19,10 +19,6 @@ public class GreetingController {
 		model.addAttribute("name", name);
 		return "dashboard";
 	}
-	@GetMapping("/forum")
-	public String forum() {
-		return "ForumThreadList";
-	}
 	@GetMapping("/postList")
 	public String postList() {
 		return "ForumPostList";

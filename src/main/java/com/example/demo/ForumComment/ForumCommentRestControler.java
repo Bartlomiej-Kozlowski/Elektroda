@@ -18,10 +18,10 @@ public class ForumCommentRestControler {
     public ForumCommentRestControler(ForumCommentService forumCommentService){
         this.forumCommentService = forumCommentService;
     }
-    @PostMapping("/list")
-    public List<ForumComment> getForumComment(@RequestBody ForumCommentListRequestDTO forumComment) {
-        return forumCommentService.getForumComments(forumComment);
-    }
+    /*  @PostMapping("/list")
+      public List<ForumComment> getForumComment(@RequestBody ForumCommentListRequestDTO forumComment) {
+          return forumCommentService.getForumComments(forumComment);
+      }*/
     @PostMapping("/add")
     public boolean addForumComment(@RequestBody ForumCommentAddRequestDTO forumComment) {
         return forumCommentService.addForumComment(forumComment);

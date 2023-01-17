@@ -2,6 +2,7 @@ package com.example.demo.ForumComment;
 
 import com.example.demo.ForumComment.ForumComment;
 import com.example.demo.ForumComment.ForumCommentRepository;
+import com.example.demo.ForumPost.ForumPost;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,14 @@ public class ForumCommentConfig {
             ForumComment group1 = new ForumComment(
                     1,
                     1,
-                    1,
-                    "Komentarz1"
+                    "Komentarz1",
+                    new ForumPost(1,2,"Temat","Komentarz1")
             );
             ForumComment group2 = new ForumComment(
                     2,
                     1,
-                    1,
-                    "Jestem Komentarzem"
+                    "Jestem Komentarzem",
+                    new ForumPost(1,2,"Temat","Komentarz1")
             );/*
             ForumComment group3 = new ForumComment(
                     3,

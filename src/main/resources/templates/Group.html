@@ -1,0 +1,12 @@
+<header th:replace="Fragments/header.html"></header>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Grupa</h6>
+  </div>
+  <div class="card-body">
+    <div th:each="Thread: ${threads}">
+      <a th:href="@{/forum/{groupId}/{id}(groupId=${groupId},id=${Thread.id})}"><span th:text="${Thread.name}"></span></a>
+    </div>
+  </div>
+</div>
+<footer th:replace="Fragments/footer.html"></footer>

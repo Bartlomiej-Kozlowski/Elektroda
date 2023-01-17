@@ -17,10 +17,10 @@ public class ForumCommentService {
         this.forumCommentRepository = forumCommentRepository;
     }
 
-    public List<ForumComment> getForumComments(@RequestBody ForumCommentListRequestDTO forumComment){
-        return this.forumCommentRepository.findForumCommentsByPostId(forumComment.postId());
+  /*  public List<ForumComment> getForumComments(@RequestBody ForumCommentListRequestDTO forumComment){
+       return this.forumCommentRepository.findForumCommentsByPostId(forumComment.postId());
     }
-
+*/
     public boolean addForumComment(ForumCommentAddRequestDTO forumComment){
 //        this.forumCommentRepository.save(forumComment);
         return true;

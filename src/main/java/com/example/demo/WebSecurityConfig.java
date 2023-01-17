@@ -42,6 +42,8 @@ public class WebSecurityConfig{
 //                        "/dashboard", "/api/user/get",
                         "/api/user/getProfile",
                         "/forum",
+                        "/forum/*",
+                        "/forum/*/*",
                         "/postContent",
                         "/postList",
                         "/css/*",
