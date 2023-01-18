@@ -44,6 +44,7 @@ public class WebSecurityConfig{
                         "/forum",
                         "/forum/*",
                         "/forum/*/*",
+                        "/search",
                         "/postContent",
                         "/postList",
                         "/css/*",

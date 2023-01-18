@@ -3,6 +3,7 @@ package com.example.demo.ForumComment;
 import com.example.demo.ForumComment.ForumComment;
 import com.example.demo.ForumComment.ForumCommentRepository;
 import com.example.demo.ForumPost.ForumPost;
+import com.example.demo.ForumPost.ForumPostConfig;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,13 +21,13 @@ public class ForumCommentConfig {
                     1,
                     1,
                     "Komentarz1",
-                    new ForumPost(1,2,"Temat","Komentarz1")
+                    ForumPostConfig.postList.get(0)
             );
             ForumComment group2 = new ForumComment(
                     2,
                     1,
                     "Jestem Komentarzem",
-                    new ForumPost(1,2,"Temat","Komentarz1")
+                    ForumPostConfig.postList.get(0)
             );/*
             ForumComment group3 = new ForumComment(
                     3,

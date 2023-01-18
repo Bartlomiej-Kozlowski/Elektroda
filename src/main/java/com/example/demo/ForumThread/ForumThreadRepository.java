@@ -9,4 +9,5 @@ import java.util.List;
 public interface ForumThreadRepository extends JpaRepository <ForumThread, Integer> {
     public List<ForumThread> findByThreadGroupId(int threadGroupId);
     public ForumThread findById(int id);
+    public List<ForumThread> findByNameOrDescription(String name, String description);
 }

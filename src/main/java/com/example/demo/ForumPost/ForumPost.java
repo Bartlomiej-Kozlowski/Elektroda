@@ -1,6 +1,11 @@
 package com.example.demo.ForumPost;
 
+import com.example.demo.ForumComment.ForumComment;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table
@@ -23,12 +28,16 @@ public class ForumPost {
     private String dateOfCreation;
     private String dateOfLastEdit;
 
+    @OneToMany(mappedBy="post")
+    private List<ForumComment> comments;
+
     public ForumPost(int id, int userId, int threadId, String topicName, String content){
         this.id = id;
         this.userId = userId;
         this.threadId = threadId;
         this.topicName = topicName;
         this.content = content;
+        this.comments = new ArrayList<ForumComment>();
     }
 
     public ForumPost(int userId, int threadId, String topicName, String content){
@@ -72,5 +81,13 @@ public class ForumPost {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public List<ForumComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<ForumComment> comments) {
+        this.comments = comments;
     }
 }

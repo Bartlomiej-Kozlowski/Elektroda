@@ -6,6 +6,13 @@
     </div>
     <div class="card-body">
       <span th:text="${Post.content}"></span>
+      <div th:each="comment: ${Post.comments}">
+        <div class="card shadow my-4">
+          <div class="card-body">
+            <span th:text="${comment.content}"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

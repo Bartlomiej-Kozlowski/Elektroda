@@ -6,6 +6,7 @@ import com.example.demo.ForumPost.ForumPost;
 import com.example.demo.ForumPost.ForumPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -40,5 +41,8 @@ public class ForumThreadService {
     }
     public List<ForumPost> getForumPost(int threadId){
         return this.forumPostRepository.findByThreadId(threadId);
+    }
+    public List<ForumThread> search(String search){
+        return this.forumThreadRepository.findByNameOrDescription(search, search);
     }
 }
