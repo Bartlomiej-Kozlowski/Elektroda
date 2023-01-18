@@ -32,8 +32,8 @@ public class ForumPostService {
     public ForumPostWithUserData getForumPost(String token, ForumPostContentRequestDTO forumPostContentRequestDTO){
         ForumPostWithUserData postWithUserData;
         if (token != null){
-            String username = jwtTokenUtil.getUsernameFromToken(token);
-            ForumPostWithUser post = userRepository.findUserIdByName(username)
+            String email = jwtTokenUtil.getEmailFromToken(token);
+            ForumPostWithUser post = userRepository.findUserIdByEmail(email)
                     .map((UserId userId) ->
                             forumPostRepository.findForumPostWithUserByPostId(
                                     forumPostContentRequestDTO.postId(), userId.getId()

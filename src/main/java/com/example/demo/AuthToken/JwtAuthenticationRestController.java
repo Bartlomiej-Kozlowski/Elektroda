@@ -32,17 +32,17 @@ public class JwtAuthenticationRestController {
 
     @PostMapping("/authenticate")
     public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-        authenticate(authenticationRequest.username(), authenticationRequest.password());
+        authenticate(authenticationRequest.email(), authenticationRequest.password());
         final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(authenticationRequest.username());
+                .loadUserByUsername(authenticationRequest.email());
         final String token = jwtTokenUtil.generateToken(userDetails);
         System.out.println(token);
         return new JwtResponse(token);
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String email, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {

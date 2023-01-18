@@ -33,8 +33,8 @@ public class ForumCommentService {
     public List<ForumCommentWithUserData> getForumComments(String token, ForumCommentListRequestDTO forumComment){
         List<ForumCommentWithUserData> commentList = new ArrayList<>();
         if (token != null){
-            String username = jwtTokenUtil.getUsernameFromToken(token);
-            List<ForumCommentWithUser> commentTempList = userRepository.findUserIdByName(username)
+            String email = jwtTokenUtil.getEmailFromToken(token);
+            List<ForumCommentWithUser> commentTempList = userRepository.findUserIdByEmail(email)
                     .map((UserId userId) ->
                             forumCommentRepository.findForumCommentsWithUserByPostId(
                                 forumComment.postId(), userId.getId()
@@ -74,25 +74,25 @@ public class ForumCommentService {
     }
 
     public void addForumComment(String token, ForumCommentAddRequestDTO forumComment){
-        String username = jwtTokenUtil.getUsernameFromToken(token); //check if the role has access to commenting this post;
-        userRepository.findUserIdByName(username)
+        String email = jwtTokenUtil.getEmailFromToken(token); //check if the role has access to commenting this post;
+        userRepository.findUserIdByEmail(email)
                 .map((UserId userId) -> forumCommentRepository.save(new ForumComment(
                     userId.getId(), forumComment.postId(), forumComment.content()
                 )))
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + email));
     }
 
     @Transactional
     public void updateForumComment(String token, ForumCommentUpdateRequestDTO forumComment){
-        String username = jwtTokenUtil.getUsernameFromToken(token); //check if the role has access to commenting this post;
-        ForumComment comment = userRepository.findUserIdByName(username)
+        String email = jwtTokenUtil.getEmailFromToken(token); //check if the role has access to commenting this post;
+        ForumComment comment = userRepository.findUserIdByEmail(email)
                 .map((UserId userId) ->
                         forumCommentRepository.findForumCommentByIdAndUserId(
                                 forumComment.commentId(), userId.getId()
                                 )
                                 .orElseThrow(() -> new NullPointerException("No access rights to edit this comment"))
                 )
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
         comment.setContent(forumComment.content());
     }
 

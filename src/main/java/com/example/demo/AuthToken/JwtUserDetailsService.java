@@ -17,11 +17,11 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository
-                .findUserByName(username)
+                .findUserByEmail(email)
 //                .map((User user) -> new SecurityUser(user))
                 .map(SecurityUser::new)
-                .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("Email not found: " + email));
     }
 }
