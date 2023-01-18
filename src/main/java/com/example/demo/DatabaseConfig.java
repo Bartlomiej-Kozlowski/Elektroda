@@ -1,14 +1,15 @@
-package com.example.demo.ForumPost;
+package com.example.demo;
 
+import com.example.demo.ForumPost.ForumPost;
+import com.example.demo.ForumPost.ForumPostRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-//tutaj domyślne wartości dla bazy danych.
 @Configuration
-public class ForumPostConfig {
+public class DatabaseConfig {
     public static List<ForumPost> postList = List.of(
             new ForumPost(
                     1,

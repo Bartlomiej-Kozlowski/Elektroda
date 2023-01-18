@@ -1,31 +1,29 @@
 package com.example.demo.ForumComment;
 
 import com.example.demo.AuthToken.JwtTokenUtil;
-import com.example.demo.ForumComment.ForumComment;
-import com.example.demo.ForumComment.ForumCommentRepository;
-import com.example.demo.User.User;
+import com.example.demo.ForumPost.ForumPost;
+import com.example.demo.ForumPost.ForumPostRepository;
 import com.example.demo.User.UserId;
 import com.example.demo.User.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ForumCommentService {
     private ForumCommentRepository forumCommentRepository;
+    private ForumPostRepository forumPostRepository;
     private UserRepository userRepository;
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    public ForumCommentService(ForumCommentRepository forumCommentRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
+    public ForumCommentService(ForumCommentRepository forumCommentRepository, ForumPostRepository forumPostRepository, UserRepository userRepository, JwtTokenUtil jwtTokenUtil) {
         this.forumCommentRepository = forumCommentRepository;
+        this.forumPostRepository = forumPostRepository;
         this.userRepository = userRepository;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -47,7 +45,7 @@ public class ForumCommentService {
                                     comment.getId(),
                                     comment.getContent(),
                                     comment.getUserId(),
-                                    comment.getPostId(),
+                                    comment.getPost(),
                                     comment.getDateOfCreation(),
                                     comment.getDateOfLastEdit(),
                                     comment.getItsMe(), 1,0
@@ -62,7 +60,7 @@ public class ForumCommentService {
                                  comment.getId(),
                                  comment.getContent(),
                                  comment.getUserId(),
-                                 comment.getPostId(),
+                                 comment.getPost(),
                                  comment.getDateOfCreation(),
                                  comment.getDateOfLastEdit(),
                                  0, 0,0
@@ -75,9 +73,11 @@ public class ForumCommentService {
 
     public void addForumComment(String token, ForumCommentAddRequestDTO forumComment){
         String email = jwtTokenUtil.getEmailFromToken(token); //check if the role has access to commenting this post;
+        ForumPost post = forumPostRepository.findForumPostByPostId(forumComment.postId())
+                .orElseThrow(() -> new NullPointerException("Forum post not found" + forumComment.postId()));
         userRepository.findUserIdByEmail(email)
                 .map((UserId userId) -> forumCommentRepository.save(new ForumComment(
-                    userId.getId(), forumComment.postId(), forumComment.content()
+                        userId.getId(), forumComment.content(), post
                 )))
                 .orElseThrow(() -> new UsernameNotFoundException("Username not found: " + email));
     }

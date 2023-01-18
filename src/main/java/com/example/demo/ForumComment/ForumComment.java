@@ -35,10 +35,11 @@ public class ForumComment {
         this.post = post;
     }
 
-    public ForumComment(int userId, String content){
+    public ForumComment(int userId, String content, ForumPost post){
         this.userId = userId;
         this.content = content;
         this.dateOfCreation = LocalDateTime.now();
+        this.post = post;
     }
 
     public ForumComment() {
