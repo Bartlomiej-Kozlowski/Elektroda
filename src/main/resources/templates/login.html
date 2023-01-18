@@ -22,7 +22,6 @@
 </head>
 
 <body class="bg-gradient-primary">
-
 <div class="container">
 
     <!-- Outer Row -->
@@ -40,6 +39,7 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
+                                <div id="alert" class="warning" style="visibility: hidden">Niepoprawny email lub hasło</div>
 <!--                                <form class="user" th:action="@{/login}" method="post">-->
                                     <div class="form-group">
                                         <input type="text" name="username" class="form-control form-control-user"
@@ -92,11 +92,11 @@
 <script src="js/sb-admin-2.min.js"></script>
 <script src="bootstrap/js/CookiesHandler.js"></script>
 <script>
-    let name = document.getElementById("exampleInputEmail");
+    let email = document.getElementById("exampleInputEmail");
     let password = document.getElementById("exampleInputPassword");
     function login(){
 
-        let bodyMessage = JSON.stringify({username: name.value, password: password.value});
+        let bodyMessage = JSON.stringify({email: email.value, password: password.value});
         console.log("Funkcja");
         fetch("/authenticate", {
             method: "post",
@@ -105,6 +105,12 @@
                 "Content-type": "application/json"
             }
         }).then((response) => {
+            if (response.status==401){
+                document.getElementById("alert").style.visibility="visible";
+                setTimeout(() => {
+                    document.getElementById("alert").style.visibility="hidden";
+                }, 1000);
+            }
             return response.json();
         }).then((response) => {
             console.log(response);
