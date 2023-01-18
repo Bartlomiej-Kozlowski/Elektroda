@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        [contenteditable]{
+            border: solid black 1px;
+        }
+    </style>
 </head>
 <body>
     <div id="div0" class="Content">
@@ -10,83 +15,226 @@
     </div>
     <div id="addComment">
     </div>
+<script src="bootstrap/js/CookiesHandler.js"></script>
 <script>
 window.onload = () => {
-    let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
-    fetch('/api/forumPost/get', { //Orginal Post
-        method: 'post',
-        body: bodyMessage,
-        headers: {
-            'Content-type': 'application/json'
-        }
-    }).then((response) => {
-        if (response.ok) {
-        }
-        return response.json();
-    }).then((response) => {
-        let container = document.getElementById("div0");
-        let div = document.createElement("div");
-        div.id = "div" + response.id;
-        div.className = "forumPost";
-        div.setHTML(
-            "topicName: " + response.topicName +
-            ", userId: " + response.userId +
-            ", threadId: " + response.threadId +
-            ", content: " + response.content
-        );
-        container.append(div);
-    }).then(() => { //komentarze
-        let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
-        fetch('/api/forumComment/list', {
-            method: 'post',
+    loadPostsAndComments();
+}
+function addComment(){
+    let commentContent = document.getElementById("commentContent");
+    let bodyMessage = JSON.stringify({
+        postId: sessionStorage.getItem("postId"),
+        // content: commentContent.textContent
+        content: commentContent.getInnerHTML()
+    })
+    if (commentContent){
+        fetch("/api/forumComment/create", {
+            method: "post",
             body: bodyMessage,
             headers: {
-                'Content-type': 'application/json'
+                "Content-type": "application/json",
+                "Authorization": getCookie("authenticationToken")
             }
+        }).then(() => {
+            window.location.reload()
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+}
+function likeComment(commentId){
+}
+function likePost(){
+}
+function deleteComment(commentId){
+}
+function deletePost(){
+}
+function edit(elementId){
+    let commentContent = document.getElementById(elementId);
+    commentContent.childNodes[3].setAttribute("contenteditable", "true");
+    let confirmButton = document.createElement("button");
+    confirmButton.setHTML("Confirm");
+    confirmButton.addEventListener("click", () => {editConfirm(elementId)});
+    let cancelButton = document.createElement("button");
+    cancelButton.setHTML("Cancel");
+    cancelButton.addEventListener("click", () => {editCancel(elementId)});
+    commentContent.childNodes[4].append(confirmButton);
+    commentContent.childNodes[4].append(cancelButton);
+}
+function editConfirm(elementId){
+    let content = document.getElementById(elementId).childNodes[3];
+    content.setAttribute("contenteditable", "false");
+    let bodyMessage, fetchLocation;
+    if (elementId.substring(0, 3) == "div"){
+        bodyMessage = JSON.stringify({
+            postId: sessionStorage.getItem("postId"),
+            // content: content.textContent
+            content: content.getInnerHTML()
+        });
+        fetchLocation = "/api/forumPost/edit";
+    }else{
+        bodyMessage = JSON.stringify({
+            commentId: parseInt(elementId.substring("comment".length)),
+            // content: content.textContent
+            content: content.getInnerHTML()
+        })
+        fetchLocation = "/api/forumComment/edit";
+    }
+    if (content){
+        fetch(fetchLocation, {
+            method: "put",
+            body: bodyMessage,
+            headers: {
+                "Content-type": "application/json",
+                "Authorization": getCookie("authenticationToken")
+            }
+        }).then(() => {
+            window.location.reload();
+        }).catch((error) => {
+            console.log(error);
+        })
+    }else{
+        console.log("no content");
+    }
+}
+function editCancel(elementId){
+    let commentContent = document.getElementById(elementId).childNodes[3];
+    commentContent.setAttribute("contenteditable", "false");
+    loadPostsAndComments();
+}
+
+var isAuthorized = false;
+    function loadPostsAndComments(){
+        let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
+        const myHeaders = new Headers();
+        myHeaders.append('Content-type', 'application/json');
+        if (getCookie("authenticationToken")) {  //jeżeli użytkownik zalogowany
+            myHeaders.append('Authorization', getCookie("authenticationToken"));
+        }
+        fetch('/api/forumPost/get', { //////////////////////////////////////////////////////////////////Orginal Post
+            method: 'post',
+            body: bodyMessage,
+            headers: myHeaders
         }).then((response) => {
+            if (response.ok) {
+            }
             return response.json();
         }).then((response) => {
+            isAuthorized = response.imAuthorized;
+            loadEditForm();
             let container = document.getElementById("div0");
-            response.forEach((element) => {
-                let div = document.createElement("div");
-                div.id = "div" + element.id;
-                div.className = "forumPost";
-                div.setHTML(
-                    "content: " + element.content +
-                    ", postId: " + element.postId +
-                    ", dateOfCreation: " + element.dateOfCreation +
-                    ", dateOfLastEdit: " + element.dateOfLastEdit
-                );
-                container.append(div);
+            //////////////////////////////////////////////////////////////////////////////////////////////
+            container.setHTML("");
+            //////////////////////////////////////////////////////////////////////////////////////////////
+            let div = document.createElement("div");
+            container.append(div);
+            div.id = "div" + response.id;
+            div.className = "forumPost";
+            div.setHTML(
+                `<div>topicName: ` + response.topicName + `</div>` +
+                `<div>userId: ` + response.userId + `</div>` +
+                `<div>threadId: ` + response.threadId + `</div>` +
+                `<div id="postContent">` + response.content + `</div>` +
+                `<div id='postButtons'></div>`
+            );
+            let postButtons = document.getElementById("postButtons");
+            if (response.itsMe) {
+                let editButton = document.createElement("button");
+                editButton.setHTML("Edit");
+                editButton.addEventListener("click", () => {edit(div.id)});
+                postButtons.append(editButton);
+                let cancelButton = document.createElement("button");
+                cancelButton.setHTML("Close thread");
+                cancelButton.addEventListener("click", () => {deletePost()});
+                postButtons.append(cancelButton);
+            }
+            if(response.imAuthenticated && !response.isLiked){
+                let likeButton = document.createElement("button");
+                likeButton.setHTML("Like");
+                likeButton.addEventListener("click", () => {likePost()});
+                postButtons.append(likeButton);
+            }else if(response.imAuthenticated && response.isLiked){
+                let dislikeButton = document.createElement("button");
+                dislikeButton.setHTML("Dislike");
+                dislikeButton.addEventListener("click", () => {likePost()});
+                postButtons.append(dislikeButton);
+            }
+        }).then(() => { //////////////////////////////////////////////////////////////////komentarze
+            let bodyMessage = JSON.stringify({postId: sessionStorage.getItem("postId")})
+            const myHeaders = new Headers();
+            myHeaders.append('Content-type', 'application/json');
+            if (getCookie("authenticationToken")) {  //jeżeli użytkownik zalogowany
+                myHeaders.append('Authorization', getCookie("authenticationToken"));
+            }
+            fetch('/api/forumComment/list', {
+                method: 'post',
+                body: bodyMessage,
+                headers: myHeaders
+            }).then((response) => {
+                return response.json();
+            }).then((response) => {
+                let container = document.getElementById("div0");
+                response.forEach((element) => {
+                    isAuthorized = element.imAuthorized;
+                    let div = document.createElement("div");
+                    container.append(div);
+                    div.id = "comment" + element.id;
+                    div.className = "forumCommment";
+                    div.setHTML(
+                        `<div>postId: ` + element.postId + `</div>` +
+                        `<div>dateOfCreation: ` + element.dateOfCreation + `</div>` +
+                        `<div>dateOfLastEdit: ` + element.dateOfLastEdit + `</div>` +
+                        `<div id="commentContent` + element.id + `">` + element.content + `</div>` +
+                        `<div id='commentButtons` + element.id + `'></div>`
+                    );
+                    let commentButtons = document.getElementById("commentButtons" + element.id);
+                    if (element.itsMe) {
+                        let editButton = document.createElement("button");
+                        editButton.setHTML("Edit");
+                        editButton.addEventListener("click", () => {edit(div.id)});
+                        commentButtons.append(editButton);
+                        let cancelButton = document.createElement("button");
+                        cancelButton.setHTML("Delete");
+                        cancelButton.addEventListener("click", () => {deleteComment(element.id)});
+                        commentButtons.append(cancelButton);
+                    }
+                    if(element.imAuthenticated && !element.isLiked){
+                        let likeButton = document.createElement("button");
+                        likeButton.setHTML("Like");
+                        likeButton.addEventListener("click", () => {likeComment(element.id)});
+                        commentButtons.append(likeButton);
+                    }else if(element.imAuthenticated && element.isLiked){
+                        let dislikeButton = document.createElement("button");
+                        dislikeButton.setHTML("Dislike");
+                        dislikeButton.addEventListener("click", () => {likeComment(element.id)});
+                        commentButtons.append(dislikeButton);
+                    }
+                });
+            }).catch((error) => {
+                console.log(error)
             });
         }).catch((error) => {
             console.log(error)
         });
-    }).catch((error) => {
-        console.log(error)
-    });
-    let addCommentDiv = document.getElementById("addComment");
-    if (true){  //jeżeli użytkownik zalogowany
-        addCommentDiv.setHTML(
-            `<textarea id="commentContent" placeholder="Wprowadź treść komentarza ..."></textarea>
-    <button onclick="addComment()">Add comment</button>`
-        )
-    }else{
-        addCommentDiv.setHTML(
-            `<p>Komentowanie możliwe tylko dla zalogowanych użytkowników</p>`
-        )
     }
-    function addComment(){
-        let commentContent = document.getElementById("commentContent");
-        let bodyMessage = JSON.stringify({content: commentContent.value, token: "sss"})
-        if (commentContent){
-            // fetch("/api/forumComment/create", {
-            //     method: "post";
-            //     body: ;
-            // })
+    function loadEditForm(){
+        let addCommentDiv = document.getElementById("addComment");
+        if (isAuthorized){
+            addCommentDiv.setHTML(
+                `<div id="commentContent" placeholder="Wprowadź treść komentarza ..." contenteditable>
+</div><br />`
+            );
+            let addCommentButton = document.createElement("button");
+            addCommentButton.setHTML("Add comment");
+            addCommentButton.addEventListener("click", () => {addComment()});
+            addCommentDiv.append(addCommentButton);
+        }else{
+            addCommentDiv.setHTML(
+                `<p>Komentowanie możliwe tylko dla zalogowanych użytkowników</p>`
+            );
         }
     }
-}
 </script>
 </body>
 </html>

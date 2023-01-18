@@ -11,18 +11,13 @@ import java.util.List;
 //tutaj domyślne wartości dla bazy danych.
 @Configuration
 public class UserConfig {
-//    UserRepository userRepository;
     PasswordEncoder passwordEncoder;
+    public List<User> userConfigList;
 
     @Autowired
     public UserConfig(PasswordEncoder passwordEncoder){
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner(UserRepository repository){
-        return args -> {
-            List<User> users = List.of(
+        this.userConfigList = List.of(
                 new User(
                         1,
                         "admin",
@@ -31,13 +26,26 @@ public class UserConfig {
                         UserRole.ROLE_ADMIN
                 ),
                 new User(
-                    "testUser",
-                    "user@gmail",
-                            passwordEncoder.encode("haslo"),
-                    UserRole.ROLE_USER
+                        2,
+                        "uzytkownik",
+                        "user@gmail",
+                        passwordEncoder.encode("haslo"),
+                        UserRole.ROLE_USER
+                ),
+                new User(
+                        3,
+                        "testUser",
+                        "user2@gmail",
+                        passwordEncoder.encode("haslo"),
+                        UserRole.ROLE_USER
                 )
-            );
-            repository.saveAll(users);
+        );
+    }
+
+    @Bean
+    CommandLineRunner commandLineRunner(UserRepository repository){
+        return args -> {
+            repository.saveAll(userConfigList);
         };
     }
 

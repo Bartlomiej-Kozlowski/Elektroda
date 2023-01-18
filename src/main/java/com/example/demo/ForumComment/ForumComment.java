@@ -38,6 +38,7 @@ public class ForumComment {
     public ForumComment(int userId, String content){
         this.userId = userId;
         this.content = content;
+        this.dateOfCreation = LocalDateTime.now();
     }
 
     public ForumComment() {
@@ -67,5 +68,13 @@ public class ForumComment {
 
     public void setPost(ForumPost post) {
         this.post = post;
+    }
+
+    public LocalDateTime getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public LocalDateTime getDateOfLastEdit() {
+        return dateOfLastEdit;
     }
 }

@@ -3,6 +3,7 @@ package com.example.demo.ForumPost;
 import com.example.demo.ForumComment.ForumComment;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,8 +26,8 @@ public class ForumPost {
     private String content;
     private int userId; //user that made the post;`
     private int threadId; //user that made the post;
-    private String dateOfCreation;
-    private String dateOfLastEdit;
+    private LocalDateTime dateOfCreation;
+    private LocalDateTime dateOfLastEdit;
 
     @OneToMany(mappedBy="post")
     private List<ForumComment> comments;
@@ -89,5 +90,13 @@ public class ForumPost {
 
     public void setComments(List<ForumComment> comments) {
         this.comments = comments;
+    }
+
+    public LocalDateTime getDateOfLastEdit() {
+        return dateOfLastEdit;
+    }
+
+    public LocalDateTime getDateOfCreation() {
+        return dateOfCreation;
     }
 }

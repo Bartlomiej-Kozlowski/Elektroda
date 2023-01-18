@@ -15,4 +15,15 @@ public interface UserRepository
 
     @Query("select u from User u where u.name = ?1")
     Optional<User> findUserByName(String username);
+
+    @Query(value = "select u.id from User u where u.name = ?1", nativeQuery = true)
+    Optional<UserId> findUserIdByName(String username);
+
+    @Query("select u from User u where u.email = ?1")
+    Optional<User> findUserByEmail(String email);
+
+    @Query(value = "select u.id from User u where u.email = ?1", nativeQuery = true)
+    Optional<UserId> findUserIdByEmail(String email);
+
+
 }

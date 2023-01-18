@@ -1,12 +1,13 @@
-package com.example.demo.ForumPost;
+package com.example.demo.ForumComment;
 
 import java.time.LocalDateTime;
 
-public interface ForumPostWithoutContent{
+public interface ForumCommentWithUser {
     Integer getId();
-    String getTopicName();
+    String getContent();
     Integer getUserId();
-    Integer getThreadId();
+    Integer getPostId();
     LocalDateTime getDateOfCreation();
     LocalDateTime getDateOfLastEdit();
+    Integer getItsMe();
 }
