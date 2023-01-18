@@ -32,14 +32,12 @@ public class JwtAuthenticationRestController {
 
     @PostMapping("/authenticate")
     public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-//    public String createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
         authenticate(authenticationRequest.username(), authenticationRequest.password());
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.username());
         final String token = jwtTokenUtil.generateToken(userDetails);
         System.out.println(token);
         return new JwtResponse(token);
-//        return token;
     }
 
     private void authenticate(String username, String password) throws Exception {

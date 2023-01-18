@@ -1,4 +1,4 @@
 package com.example.demo.ForumComment;
 
-public record ForumCommentAddRequestDTO(String token) {
+public record ForumCommentAddRequestDTO(Integer postId, String content) {
 }

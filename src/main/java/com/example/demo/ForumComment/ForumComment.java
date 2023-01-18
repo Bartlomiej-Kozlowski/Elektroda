@@ -35,6 +35,7 @@ public class ForumComment {
         this.userId = userId;
         this.postId = postId;
         this.content = content;
+        this.dateOfCreation = LocalDateTime.now();
     }
 
     public ForumComment() {
@@ -60,5 +61,13 @@ public class ForumComment {
 
     public int getPostId() {
         return postId;
+    }
+
+    public LocalDateTime getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public LocalDateTime getDateOfLastEdit() {
+        return dateOfLastEdit;
     }
 }

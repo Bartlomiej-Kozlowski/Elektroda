@@ -18,8 +18,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        System.out.println("atGetUserDetailService1");
         return userRepository
                 .findUserByName(username)
 //                .map((User user) -> new SecurityUser(user))

@@ -26,13 +26,13 @@ public class ForumCommentConfig {
                     1,
                     1,
                     "Jestem Komentarzem"
-            );/*
+            );
             ForumComment group3 = new ForumComment(
                     3,
-                    "Zmiany na forum",
-                    "sprawy dotyczące forum",
-                    2
-            );
+                    2,
+                    1,
+                    "Jestem Komentarzem"
+            );/*
             ForumComment group4 = new ForumComment(
                     4,
                     "Zgłaszanie błędów",
@@ -75,7 +75,7 @@ public class ForumCommentConfig {
                     "",
                     5
             );*/
-            List<ForumComment> groupArray = List.of(group1, group2/*, group3, group4, group5, group6,
+            List<ForumComment> groupArray = List.of(group1, group2, group3/*, group4, group5, group6,
                     group7, group8, group9, group10*/);
             repository.saveAll(groupArray);
         };

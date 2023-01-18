@@ -1,6 +1,7 @@
 package com.example.demo.ForumPost;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -20,8 +21,8 @@ public class ForumPost {
     private String content;
     private int userId; //user that made the post;
     private int threadId; //user that made the post;
-    private String dateOfCreation;
-    private String dateOfLastEdit;
+    private LocalDateTime dateOfCreation;
+    private LocalDateTime dateOfLastEdit;
 
     public ForumPost(int id, int userId, int threadId, String topicName, String content){
         this.id = id;
@@ -72,5 +73,13 @@ public class ForumPost {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public LocalDateTime getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public LocalDateTime getDateOfLastEdit() {
+        return dateOfLastEdit;
     }
 }

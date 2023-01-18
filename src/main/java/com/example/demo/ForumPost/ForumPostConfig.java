@@ -22,7 +22,7 @@ public class ForumPostConfig {
             );
             ForumPost group2 = new ForumPost(
                     2,
-                    1,
+                    2,
                     1,
                     "2Temat",
                     "Dzień dobry drodzy forumowicze. Tutaj testuję drugi post"
@@ -36,7 +36,7 @@ public class ForumPostConfig {
             );
             ForumPost group4 = new ForumPost(
                     4,
-                    1,
+                    2,
                     2,
                     "2Te4mat",
                     "Dzień dobry drodzy forumowicze. Tutaj testuję inny post"
