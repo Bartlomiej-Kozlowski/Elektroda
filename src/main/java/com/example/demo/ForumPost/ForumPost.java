@@ -83,6 +83,9 @@ public class ForumPost {
     public User getUser() {
         return user;
     }
+    public Integer getUserId() {
+        return user.getId();
+    }
 
     public void setUser(User user) {
         this.user = user;

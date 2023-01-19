@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository
     extends JpaRepository<User, Integer> {
-    @Query("select u.id, u.name from User u where u.id = ?1")
+    @Query(nativeQuery = true, value = "select u.id, u.name from User u where u.id = ?1")
     UserProfile findUserProfileById(int id);
 
     @Query("select u from User u where u.name = ?1")

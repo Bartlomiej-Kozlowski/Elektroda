@@ -34,8 +34,8 @@ public class ForumCommentService {
 
     public List<ForumCommentWithUserData> getForumComments(String token, ForumCommentListRequestDTO forumComment){
         List<ForumCommentWithUserData> commentList = new ArrayList<>();
-        if (token != null){
-            String email = jwtTokenUtil.getEmailFromToken(token);
+        String email = jwtTokenUtil.getEmailFromToken(token);
+        if (email != null){
             List<ForumCommentWithUser> commentTempList = userRepository.findUserByEmail(email)
                     .map((User user) ->
                             forumCommentRepository.findForumCommentsWithUserByPostId(
@@ -48,7 +48,7 @@ public class ForumCommentService {
                             new ForumCommentWithUserData(
                                     comment.getId(),
                                     comment.getContent(),
-                                    comment.getUser(),
+                                    comment.getUserId(),
                                     comment.getPost(),
                                     comment.getDateOfCreation(),
                                     comment.getDateOfLastEdit(),
@@ -66,7 +66,7 @@ public class ForumCommentService {
                          new ForumCommentWithUserData(
                              comment.getId(),
                              comment.getContent(),
-                             comment.getUser(),
+                             comment.getUserId(),
                              comment.getPost(),
                              comment.getDateOfCreation(),
                              comment.getDateOfLastEdit(),

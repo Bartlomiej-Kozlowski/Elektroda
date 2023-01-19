@@ -2,39 +2,57 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary" th:text="${post.topicName}"></h6>
+        <div th:each="User: ${users}">
+            <h6 th:if="${post.userId eq User.id}" class="m-0 font-weight-bold text-primary" th:text="${User.name}"></h6>
+        </div>
+        <h6 class="m-0" th:text="'Date of creation: ' +  ${post.dateOfCreation}"></h6>
+        <h6 class="m-0" th:if="${post.dateOfLastEdit}" th:text="'Last edited at: ' +  ${post.dateOfLastEdit}"></h6>
     </div>
     <div class="card-body">
-        <span th:text="${post.content}"></span>
+        <div class="postContent" th:utext="${post.content}"></div>
     </div>
     <div th:if="${post.itsMe == 1}">
-        <button>Edit</button>
+        <button th:attr="onclick=|edit('post', ${post.id})|">Edit</button>
         <button>Close thread</button>
     </div>
-    <div th:if="${post.itsMe == 0} and ${post.imAuthorized == 1} and ${post.isLiked == 1}">
+    <div th:if="${post.itsMe eq 0 and post.imAuthorized eq 1 and post.isLiked eq 1}">
         <button>Dislike</button>
     </div>
-    <div th:if="${post.itsMe == 0} and ${post.imAuthorized == 1} and ${post.isLiked == 0}">
+    <div th:if="${post.itsMe eq 0 and post.imAuthorized eq 1 and post.isLiked eq 0}">
         <button>Like</button>
     </div>
 </div>
 <div th:each="Comment: ${comments}">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-<!--            <h6 class="m-0 font-weight-bold text-primary" th:text="${Comment.user.email}"></h6>-->
+            <h6 th:each="User: ${users}" th:if="${Comment.userId eq User.id}" class="m-0 font-weight-bold text-primary" th:text="${User.name}"></h6>
+            <h6 class="m-0" th:text="'Date of creation: ' +  ${Comment.dateOfCreation}"></h6>
+            <h6 class="m-0" th:if="${Comment.dateOfLastEdit}" th:text="'Last edited at: ' +  ${Comment.dateOfLastEdit}"></h6>
         </div>
         <div class="card-body">
-                <span th:text="${Comment.content}"></span>
+                <div th:attr="id=|commentContent${Comment.id}|" th:utext="${Comment.content}"></div>
         </div>
-        <div th:if="${Comment.itsMe == 1}">
-            <button>Edit</button>
-            <button>Close thread</button>
+        <div th:if="${Comment.itsMe eq 1}">
+<!--            <button th:attr="id=|commentEditButton${Comment.id}|">Edit</button>-->
+            <button th:attr="onclick=|edit('comment', ${Comment.id})|">Edit</button>
+            <button th:attr="onclick=|deleteComment(${Comment.id})|">Delete</button>
         </div>
-        <div th:if="${Comment.itsMe == 0} and ${Comment.imAuthorized == 1} and ${Comment.isLiked == 1}">
-            <button>Dislike</button>
+        <div th:if="${Comment.itsMe eq 0 and Comment.imAuthorized eq 1 and Comment.isLiked eq 1}">
+            <button th:attr="onclick=|likeComment(${Comment.id})|">Dislike</button>
         </div>
-        <div th:if="${Comment.itsMe == 0} and ${Comment.imAuthorized == 1} and ${Comment.isLiked == 0}">
-            <button>Like</button>
+        <div th:if="${Comment.itsMe eq 0 and Comment.imAuthorized eq 1 and Comment.isLiked eq 0}">
+            <button th:attr="onclick=|likeComment(${Comment.id})|">Like</button>
         </div>
     </div>
 </div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <div style="border: 1px solid black; min-height: 4em;" id="addText" contenteditable>
+        </div>
+    </div>
+    <div class="card-body">
+        <button th:attr="onclick=|addComment(${post.id})|">Add comment</button>
+    </div>
+</div>
+<script th:src="@{/bootstrap/js/CommentActions.js}"></script>
 <footer th:replace="Fragments/footer.html"></footer>

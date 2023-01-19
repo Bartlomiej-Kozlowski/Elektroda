@@ -3,17 +3,19 @@
 <div th:each="Post: ${posts}">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary" th:text="${Post.topicName}"></h6>
+            <h6 class="m-0 font-weight-bold text-primary">
+                <a th:href="@{/forum/post/{id}(id=${Post.id})}" th:text="${Post.topicName}"></a>
+            </h6>
         </div>
         <div class="card-body">
-            <span th:text="${Post.content}"></span>
-            <div th:each="comment: ${Post.comments}">
-                <div class="card shadow my-4">
-                    <div class="card-body">
-                        <span th:text="${comment.content}"></span>
-                    </div>
-                </div>
-            </div>
+            <span th:utext="${Post.content}"></span>
+<!--            <div th:each="comment: ${Post.comments}">-->
+<!--                <div class="card shadow my-4">-->
+<!--                    <div class="card-body">-->
+<!--                        <span th:utext="${comment.content}"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
         </div>
     </div>
 </div>

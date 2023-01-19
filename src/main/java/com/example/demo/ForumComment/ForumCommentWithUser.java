@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public interface ForumCommentWithUser {
     Integer getId();
     String getContent();
-    User getUser();
+    Integer getUserId();
     ForumPost getPost();
     LocalDateTime getDateOfCreation();
     LocalDateTime getDateOfLastEdit();

@@ -32,10 +32,8 @@ public class ForumPostService {
 
     public ForumPostWithUserData getForumPost(String token, Integer postId){
         ForumPostWithUserData postWithUserData;
-        if (token != null){
-            String email = jwtTokenUtil.getEmailFromToken(token);
-            User user = userRepository.findUserByEmail(email)
-                    .orElseThrow(()-> new NullPointerException("No user was found"));
+        String email = jwtTokenUtil.getEmailFromToken(token);
+        if (email != null){
             ForumPostWithUser post = userRepository.findUserIdByEmail(email)
                     .map((UserId userid) ->
                             forumPostRepository.findForumPostWithUserByPostId(
@@ -48,7 +46,7 @@ public class ForumPostService {
                     post.getId(),
                     post.getTopicName(),
                     post.getContent(),
-                    user,
+                    post.getUserId(),
                     post.getThreadId(),
                     post.getDateOfCreation(),
                     post.getDateOfLastEdit(),
@@ -62,7 +60,7 @@ public class ForumPostService {
                     post.getId(),
                     post.getTopicName(),
                     post.getContent(),
-                    post.getUser(),
+                    post.getUserId(),
                     post.getThreadId(),
                     post.getDateOfCreation(),
                     post.getDateOfLastEdit(),

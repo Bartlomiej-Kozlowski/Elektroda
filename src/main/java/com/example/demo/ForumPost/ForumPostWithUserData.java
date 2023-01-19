@@ -11,7 +11,7 @@ public class ForumPostWithUserData {
     Integer id;
     String topicName;
     String content;
-    User user;
+    Integer userId;
     Integer threadId;
     LocalDateTime dateOfCreation;
     LocalDateTime dateOfLastEdit;
@@ -24,7 +24,7 @@ public class ForumPostWithUserData {
     public ForumPostWithUserData(Integer id,
                                  String topicName,
                                  String content,
-                                 User user,
+                                 Integer userId,
                                  Integer threadId,
                                  LocalDateTime dateOfCreation,
                                  LocalDateTime dateOfLastEdit,
@@ -34,7 +34,7 @@ public class ForumPostWithUserData {
         this.id = id;
         this.topicName = topicName;
         this.content = content;
-        this.user = user;
+        this.userId = userId;
         this.threadId = threadId;
         this.dateOfCreation = dateOfCreation;
         this.dateOfLastEdit = dateOfLastEdit;
@@ -55,8 +55,8 @@ public class ForumPostWithUserData {
         return content;
     }
 
-    public User getUer() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
     public Integer getThreadId() {

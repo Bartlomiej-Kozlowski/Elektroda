@@ -1,6 +1,9 @@
 package com.example.demo.AuthToken;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +27,18 @@ public class JwtTokenUtil implements Serializable {
 
     @Value("${jwt.secret}")
     private String secret;
+//    private Date expirationTime = Date..getTime();
+    private ZonedDateTime timeAfterDay = ZonedDateTime.now().plusDays(1);
+    private Date expirationDate = java.util.Date.from(timeAfterDay.toInstant());
+
 
     //retrieve username from jwt token
     public String getEmailFromToken(String token) {
-        return getClaimFromToken(token, Claims::getSubject);
+        if (token!=null) {
+            return getClaimFromToken(token, Claims::getSubject);
+        }else{
+            return null;
+        }
     }
 
     //retrieve expiration date from jwt token
@@ -37,11 +48,20 @@ public class JwtTokenUtil implements Serializable {
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
-        return claimsResolver.apply(claims);
+        if (claims!=null){
+            claims.setExpiration(expirationDate);
+            return claimsResolver.apply(claims);
+        }else{
+            return null;
+        }
     }
     //for retrieveing any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        if (token != null) {
+            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        }else{
+            return null;
+        }
     }
 
     //check if the token has expired

@@ -65,6 +65,9 @@ public class ForumComment {
     public User getUser() {
         return user;
     }
+    public Integer getUserId() {
+        return user.getId();
+    }
 
     public ForumPost getPost() {
         return post;

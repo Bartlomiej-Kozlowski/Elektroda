@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class ForumCommentWithUserData{
     Integer id;
     String content;
-    User user;
+    Integer userId;
     ForumPost post;
     LocalDateTime dateOfCreation;
     LocalDateTime dateOfLastEdit;
@@ -18,7 +18,7 @@ public class ForumCommentWithUserData{
 
     public ForumCommentWithUserData(Integer id,
                                     String content,
-                                    User user,
+                                    Integer userId,
                                     ForumPost post,
                                     LocalDateTime dateOfCreation,
                                     LocalDateTime dateOfLastEdit,
@@ -27,7 +27,7 @@ public class ForumCommentWithUserData{
                                     Integer isLiked) {
         this.id = id;
         this.content = content;
-        this.user = user;
+        this.userId = userId;
         this.post = post;
         this.dateOfCreation = dateOfCreation;
         this.dateOfLastEdit = dateOfLastEdit;
@@ -44,8 +44,8 @@ public class ForumCommentWithUserData{
         return content;
     }
 
-    public User getUserId() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
     public ForumPost getPost() {
@@ -68,7 +68,7 @@ public class ForumCommentWithUserData{
         return imAuthorized;
     }
 
-    public Integer getLiked() {
+    public Integer getIsLiked() {
         return isLiked;
     }
 }

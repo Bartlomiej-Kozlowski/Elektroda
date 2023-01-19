@@ -8,10 +8,7 @@ public interface ForumPostWithUser {
     Integer getId();
     String getTopicName();
     String getContent();
-//    User getUser();
     Integer getUserId();
-    String getUserEmail();
-    String getUserName();
     Integer getThreadId();
     LocalDateTime getDateOfCreation();
     LocalDateTime getDateOfLastEdit();

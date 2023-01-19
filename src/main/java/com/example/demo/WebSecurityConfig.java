@@ -42,7 +42,7 @@ public class WebSecurityConfig{
                         "/api/user/getProfile",
                         "/forum",
                         "/forum/*",
-                        "/forum/*/*",
+                        "/forum/**",
                         "/search",
                         "/postContent",
                         "/postList",

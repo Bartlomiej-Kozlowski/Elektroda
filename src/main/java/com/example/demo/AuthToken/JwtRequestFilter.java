@@ -36,7 +36,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String requestTokenHeader = request.getHeader("Authorization");
-//        final String requestTokenHeader = request.getHeader("Cookie");
         Cookie[] cookies = request.getCookies();
         if(cookies!=null) {
             for (Cookie cookie : cookies) {
