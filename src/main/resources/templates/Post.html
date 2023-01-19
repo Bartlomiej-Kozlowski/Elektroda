@@ -1,19 +1,40 @@
 <header th:replace="Fragments/header.html"></header>
-<div th:each="Post: ${posts}">
-  <div class="card shadow mb-4">
+<div class="card shadow mb-4">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary" th:text="${Post.topicName}"></h6>
+        <h6 class="m-0 font-weight-bold text-primary" th:text="${post.topicName}"></h6>
     </div>
     <div class="card-body">
-      <span th:text="${Post.content}"></span>
-      <div th:each="comment: ${Post.comments}">
-        <div class="card shadow my-4">
-          <div class="card-body">
-            <span th:text="${comment.content}"></span>
-          </div>
-        </div>
-      </div>
+        <span th:text="${post.content}"></span>
     </div>
-  </div>
+    <div th:if="${post.itsMe == 1}">
+        <button>Edit</button>
+        <button>Close thread</button>
+    </div>
+    <div th:if="${post.itsMe == 0} and ${post.imAuthorized == 1} and ${post.isLiked == 1}">
+        <button>Dislike</button>
+    </div>
+    <div th:if="${post.itsMe == 0} and ${post.imAuthorized == 1} and ${post.isLiked == 0}">
+        <button>Like</button>
+    </div>
+</div>
+<div th:each="Comment: ${comments}">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+<!--            <h6 class="m-0 font-weight-bold text-primary" th:text="${Comment.user.email}"></h6>-->
+        </div>
+        <div class="card-body">
+                <span th:text="${Comment.content}"></span>
+        </div>
+        <div th:if="${Comment.itsMe == 1}">
+            <button>Edit</button>
+            <button>Close thread</button>
+        </div>
+        <div th:if="${Comment.itsMe == 0} and ${Comment.imAuthorized == 1} and ${Comment.isLiked == 1}">
+            <button>Dislike</button>
+        </div>
+        <div th:if="${Comment.itsMe == 0} and ${Comment.imAuthorized == 1} and ${Comment.isLiked == 0}">
+            <button>Like</button>
+        </div>
+    </div>
 </div>
 <footer th:replace="Fragments/footer.html"></footer>

@@ -1,23 +1,30 @@
 package com.example.demo.ForumPost;
 
+import com.example.demo.ForumComment.ForumComment;
+import com.example.demo.User.User;
+
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ForumPostWithUserData {
     Integer id;
     String topicName;
     String content;
-    Integer userId;
+    User user;
     Integer threadId;
     LocalDateTime dateOfCreation;
     LocalDateTime dateOfLastEdit;
     Integer itsMe;
     Integer imAuthorized;
     Integer isLiked;
+    @OneToMany(mappedBy="post")
+    private List<ForumComment> comments;
 
     public ForumPostWithUserData(Integer id,
                                  String topicName,
                                  String content,
-                                 Integer userId,
+                                 User user,
                                  Integer threadId,
                                  LocalDateTime dateOfCreation,
                                  LocalDateTime dateOfLastEdit,
@@ -27,7 +34,7 @@ public class ForumPostWithUserData {
         this.id = id;
         this.topicName = topicName;
         this.content = content;
-        this.userId = userId;
+        this.user = user;
         this.threadId = threadId;
         this.dateOfCreation = dateOfCreation;
         this.dateOfLastEdit = dateOfLastEdit;
@@ -48,8 +55,8 @@ public class ForumPostWithUserData {
         return content;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUer() {
+        return user;
     }
 
     public Integer getThreadId() {
@@ -72,7 +79,7 @@ public class ForumPostWithUserData {
         return imAuthorized;
     }
 
-    public Integer getLiked() {
+    public Integer getIsLiked() {
         return isLiked;
     }
 }

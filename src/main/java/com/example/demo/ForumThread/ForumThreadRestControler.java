@@ -37,7 +37,8 @@ public class ForumThreadRestControler {
         List<ForumPost> list = forumThreadService.getForumPost(threadId);
         model.addAttribute("thread", thread);
         model.addAttribute("posts", list);
-        return "Post";
+        return "Postlist";
+//        return "Post";
 
     }
 

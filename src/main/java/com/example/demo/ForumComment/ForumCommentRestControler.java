@@ -17,20 +17,20 @@ public class ForumCommentRestControler {
         this.forumCommentService = forumCommentService;
     }
     @PostMapping("/list")
-    public List<ForumCommentWithUserData> getForumComment(@RequestHeader(name = "Authorization", required=false) String token,
+    public List<ForumCommentWithUserData> getForumComment(@RequestHeader(name = "Cookie", required=false) String token,
                                               @RequestBody ForumCommentListRequestDTO forumComment) {
         return forumCommentService.getForumComments(token, forumComment);
     }
     @PostMapping("/create")
-    public void addForumComment(@RequestHeader("Authorization") String token, @RequestBody ForumCommentAddRequestDTO forumComment) {
+    public void addForumComment(@RequestHeader("Cookie") String token, @RequestBody ForumCommentAddRequestDTO forumComment) {
         forumCommentService.addForumComment(token, forumComment);
     }
     @PutMapping("/edit")
-    public void updateForumComment(@RequestHeader("Authorization") String token, @RequestBody ForumCommentUpdateRequestDTO forumComment) {
+    public void updateForumComment(@RequestHeader("Cookie") String token, @RequestBody ForumCommentUpdateRequestDTO forumComment) {
         forumCommentService.updateForumComment(token, forumComment);
     }
     @DeleteMapping("/delete")
-    public void updateForumComment(@RequestHeader("Authorization") String token, @RequestBody ForumCommentDeleteRequestDTO forumComment) {
+    public void updateForumComment(@RequestHeader("Cookie") String token, @RequestBody ForumCommentDeleteRequestDTO forumComment) {
         forumCommentService.deleteForumComment(token, forumComment);
     }
 

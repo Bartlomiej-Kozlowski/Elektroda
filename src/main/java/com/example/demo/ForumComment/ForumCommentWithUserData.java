@@ -1,13 +1,14 @@
 package com.example.demo.ForumComment;
 
 import com.example.demo.ForumPost.ForumPost;
+import com.example.demo.User.User;
 
 import java.time.LocalDateTime;
 
 public class ForumCommentWithUserData{
     Integer id;
     String content;
-    Integer userId;
+    User user;
     ForumPost post;
     LocalDateTime dateOfCreation;
     LocalDateTime dateOfLastEdit;
@@ -17,7 +18,7 @@ public class ForumCommentWithUserData{
 
     public ForumCommentWithUserData(Integer id,
                                     String content,
-                                    Integer userId,
+                                    User user,
                                     ForumPost post,
                                     LocalDateTime dateOfCreation,
                                     LocalDateTime dateOfLastEdit,
@@ -26,7 +27,7 @@ public class ForumCommentWithUserData{
                                     Integer isLiked) {
         this.id = id;
         this.content = content;
-        this.userId = userId;
+        this.user = user;
         this.post = post;
         this.dateOfCreation = dateOfCreation;
         this.dateOfLastEdit = dateOfLastEdit;
@@ -43,8 +44,8 @@ public class ForumCommentWithUserData{
         return content;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUserId() {
+        return user;
     }
 
     public ForumPost getPost() {

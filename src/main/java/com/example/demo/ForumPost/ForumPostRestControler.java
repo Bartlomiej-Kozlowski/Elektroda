@@ -16,8 +16,8 @@ public class ForumPostRestControler {
     }
 
     @PostMapping("/get")
-    public ForumPostWithUserData getForumPost(@RequestHeader(name = "Authorization", required=false) String token,
-                                  @RequestBody ForumPostContentRequestDTO forumPost) {
+    public ForumPostWithUserData getForumPost(@RequestHeader(name = "Cookie", required=false) String token,
+                                  @RequestBody Integer forumPost) {
         return forumPostService.getForumPost(token, forumPost);
     }
     @PostMapping("/list")

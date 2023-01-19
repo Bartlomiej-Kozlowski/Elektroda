@@ -1,6 +1,7 @@
 package com.example.demo.ForumPost;
 
 import com.example.demo.ForumComment.ForumComment;
+import com.example.demo.User.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,7 +25,9 @@ public class ForumPost {
     private int id;
     private String topicName;
     private String content;
-    private int userId; //user that made the post;`
+    @ManyToOne
+    @JoinColumn(name="userId", nullable = false)
+    private User user; //user that made the post;`
     private int threadId; //user that made the post;
     private LocalDateTime dateOfCreation;
     private LocalDateTime dateOfLastEdit;
@@ -32,20 +35,21 @@ public class ForumPost {
     @OneToMany(mappedBy="post")
     private List<ForumComment> comments;
 
-    public ForumPost(int id, int userId, int threadId, String topicName, String content){
+    public ForumPost(int id, User user, int threadId, String topicName, String content){
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.threadId = threadId;
         this.topicName = topicName;
         this.content = content;
         this.comments = new ArrayList<ForumComment>();
     }
 
-    public ForumPost(int userId, int threadId, String topicName, String content){
-        this.userId = userId;
+    public ForumPost(User user, int threadId, String topicName, String content){
+        this.user = user;
         this.threadId = threadId;
         this.topicName = topicName;
         this.content = content;
+        this.comments = new ArrayList<ForumComment>();
     }
 
     public ForumPost() {
@@ -76,12 +80,12 @@ public class ForumPost {
         this.content = content;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<ForumComment> getComments() {
