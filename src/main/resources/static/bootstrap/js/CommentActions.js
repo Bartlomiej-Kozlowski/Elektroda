@@ -92,4 +92,5 @@ function editCancel(elementType, elementId){
         content = document.getElementById("commentContent" + elementId);
     }
     content.setAttribute("contenteditable", "false");
+    window.location.reload();
 }

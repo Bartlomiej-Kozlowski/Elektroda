@@ -45,13 +45,20 @@
         </div>
     </div>
 </div>
-<div class="card shadow mb-4">
+<div th:if="${post.imAuthorized eq 1}" class="card shadow mb-4">
     <div class="card-header py-3">
         <div style="border: 1px solid black; min-height: 4em;" id="addText" contenteditable>
         </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" >
         <button th:attr="onclick=|addComment(${post.id})|">Add comment</button>
+    </div>
+</div>
+<div th:unless="${post.imAuthorized eq 1}" class="card shadow mb-4">
+    <div class="card-header py-3">
+    </div>
+    <div class="card-body" >
+        Możliwość komentowania tylko dla użytkowników zalogowanych.
     </div>
 </div>
 <script th:src="@{/bootstrap/js/CommentActions.js}"></script>
