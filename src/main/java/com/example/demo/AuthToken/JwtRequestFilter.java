@@ -54,6 +54,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             System.out.println("Unable to get JWT Token");
         } catch (ExpiredJwtException e) {
             System.out.println("JWT Token has expired");
+            Cookie overwriteCookie = new Cookie("authenticationToken", null);
+            //w razie błędu wyczyść token z ciasteczek.
+            overwriteCookie.setMaxAge(0);
+            overwriteCookie.setSecure(true);
+            overwriteCookie.setHttpOnly(true);
+            overwriteCookie.setPath("/");
+
+            response.addCookie(overwriteCookie);
         }
 
         // Once we get the token validate it.
