@@ -12,6 +12,6 @@ public interface ForumThreadRepository extends JpaRepository <ForumThread, Integ
     public List<ForumThread> findByThreadGroupId(int threadGroupId);
     public ForumThread findById(int id);
 
-    @Query("select f from ForumThread f where f.name like '%name%' or f.description like '%desc%'")
-    public List<ForumThread> findByNameOrDescription(@Param("name") String name,@Param("desc") String description);
+    @Query("select f from ForumThread f where f.name = ?1 or f.description = ?2")
+    public List<ForumThread> findByNameOrDescription(String name, String description);
 }
